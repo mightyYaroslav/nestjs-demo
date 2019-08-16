@@ -6,6 +6,8 @@ import { UserResponse } from '../../../application/user/data/output/UserResponse
 import { UserCreationService, UserCreationServiceType } from '../../../application/user/services/UserCreationService'
 import { CreateUserInput } from '../../../application/user/data/input/CreateUserInput'
 import { UserQueryService, UserQueryServiceType } from '../../../application/user/services/UserQueryService'
+import { UserResponseConverterType } from '../../../application/user/services/converters/UserResponseConverter'
+import { Converter } from '../../../configuration/Converter'
 
 @Injectable()
 export class AuthServiceImpl implements AuthService {
@@ -15,26 +17,23 @@ export class AuthServiceImpl implements AuthService {
     private readonly userCreationService: UserCreationService,
     @Inject(UserQueryServiceType)
     private readonly userQueryService: UserQueryService,
+    @Inject(UserResponseConverterType)
+    private readonly userConverter: Converter<User, UserResponse>,
     private readonly jwtService: JwtService
   ) {}
 
-  private async validateUser(email: string, password: string): Promise<boolean> {
-    const found = await this.userQueryService.checkIfExists(email, password)
+  public async validateUser(email: string, password: string): Promise<UserResponse> {
+    const found = await this.userQueryService.findByEmailAndPassword(email, password)
     if (!found) {
       throw new NotFoundException()
     }
-    return found
+    return this.userConverter.from(found)
   }
 
   async login(user: User): Promise<{ [key: string]: any }> {
-    await this.validateUser(user.email, user.password)
-    const payload = `${user.email}${user.id}`
-    const accessToken = this.jwtService.sign(payload)
+    const payload = { email: user.email, id: user.id }
     return {
-      expires_in: 3600,
-      access_token: accessToken,
-      user_id: payload,
-      status: 200
+      access_token: this.jwtService.sign(payload)
     }
   }
 

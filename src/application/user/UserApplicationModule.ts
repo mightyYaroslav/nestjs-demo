@@ -19,6 +19,7 @@ import { UserQueryServiceImpl } from './services/impl/UserQueryServiceImpl'
   }, {
     provide: UserQueryServiceType,
     useClass: UserQueryServiceImpl
-  }]
+  }],
+  exports: [UserResponseConverterType, UserCreationServiceType, UserQueryServiceType]
 })
 export class UserApplicationModule {}

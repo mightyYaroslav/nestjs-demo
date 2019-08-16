@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common'
-import { UserModule } from './user/user.module'
 import { ConfigurationModule } from './configuration/ConfigurationModule'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import config from './configuration/Config'
+import { AuthControllerModule } from './web/auth/AuthControllerModule'
+import { EventControllerModule } from './web/event/EventControllerModule'
+import { join } from 'path'
 
 @Module({
   imports: [
@@ -13,11 +15,12 @@ import config from './configuration/Config'
       username: config.typeorm.username,
       password: config.typeorm.password,
       database: config.typeorm.database,
-      entities: ['src/**/*.entity{.ts,.js}'],
+      entities: [join(__dirname, '**/**Entity{.ts,.js}')],
       synchronize: true
     }),
-    UserModule,
-    ConfigurationModule
+    ConfigurationModule,
+    AuthControllerModule,
+    EventControllerModule
   ]
 })
 export class AppModule {}

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
 import { UserEntity } from '../../user/data/UserEntity'
 
 interface EventEntityConstructionObject {
@@ -8,7 +8,7 @@ interface EventEntityConstructionObject {
   user: UserEntity
 }
 
-@Entity()
+@Entity('event')
 export class EventEntity {
   @PrimaryGeneratedColumn()
   id: number

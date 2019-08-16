@@ -1,5 +1,7 @@
+import { User } from '../../../domain/user/data/User'
+
 export interface UserQueryService {
-  checkIfExists(email: string, password: string): Promise<boolean>
+  findByEmailAndPassword(email: string, password: string): Promise<User | null>
 }
 
 const UserQueryServiceType = Symbol.for('UserQueryService')

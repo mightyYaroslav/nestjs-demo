@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Inject, Param, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Inject, Param, Post, Request } from '@nestjs/common'
 import { ApiBearerAuth, ApiResponse, ApiUseTags } from '@nestjs/swagger'
 import { EventResponse } from '../../../application/event/data/output/EventResponse'
 import { EventCreationService, EventCreationServiceType } from '../../../application/event/services/EventCreationService'
@@ -23,30 +23,33 @@ export class EventController {
   @Post()
   @ApiResponse({ status: 200, type: EventResponse })
   async createEvent(
+    @Request() req,
     @Body() input: CreateEventInput
   ): Promise<EventResponse> {
-    return this.eventCreationService.createEvent(input, currentUser.id)
+    return this.eventCreationService.createEvent(input, req.user.id)
   }
 
   @Get('all')
   @ApiResponse({ status: 200, type: EventResponse, isArray: true })
-  async getAllEvents(): Promise<EventResponse[]> {
-    return this.eventQueryService.getByUser(currentUser.id)
+  async getAllEvents(@Request() req): Promise<EventResponse[]> {
+    return this.eventQueryService.getByUser(req.user.id)
   }
 
   @Get(':id')
   @ApiResponse({ status: 200, type: EventResponse })
   async getById(
+    @Request() req,
     @Param('id') eventId: number
   ): Promise<EventResponse> {
-    return this.eventQueryService.getById(eventId, currentUser.id)
+    return this.eventQueryService.getById(eventId, req.user.id)
   }
 
   @Delete(':id')
-  @ApiResponse({ status: 200, type: null })
+  @ApiResponse({ status: 200, type: EventResponse })
   async deleteEvent(
+    @Request() req,
     @Param('id') eventId: number
-  ): Promise<null> {
-    return this.eventRemovingService.remove(eventId, currentUser.id)
+  ): Promise<EventResponse> {
+    return await this.eventRemovingService.remove(eventId, req.user.id)
   }
 }

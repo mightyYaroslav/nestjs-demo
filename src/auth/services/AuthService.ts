@@ -3,6 +3,8 @@ import { UserResponse } from '../../application/user/data/output/UserResponse'
 import { CreateUserInput } from '../../application/user/data/input/CreateUserInput'
 
 export interface AuthService {
+  validateUser(email: string, password: string): Promise<any>
+
   login(user: User): Promise<{ [key: string]: any }>
 
   register(input: CreateUserInput): Promise<UserResponse>

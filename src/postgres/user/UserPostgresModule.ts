@@ -13,6 +13,7 @@ import { UserEntity } from './data/UserEntity'
   }, {
     provide: UserEntityConverterType,
     useClass: UserEntityConverter
-  }]
+  }],
+  exports: [UserRepositoryType, UserEntityConverterType]
 })
 export class UserPostgresModule {}

@@ -3,7 +3,7 @@ import { EventRepository } from '../../../application/event/ports/EventRepositor
 import { InjectRepository } from '@nestjs/typeorm'
 import { EventEntity } from '../data/EventEntity'
 import { Repository } from 'typeorm'
-import { EventEntityConverter } from './converters/EventEntityConverter'
+import { EventEntityConverterType } from './converters/EventEntityConverter'
 import { Converter } from '../../../configuration/Converter'
 import { Event } from '../../../domain/event/data/Event'
 
@@ -13,7 +13,7 @@ export class EventRepositoryAdapter implements EventRepository {
   constructor(
     @InjectRepository(EventEntity)
     private readonly eventRepository: Repository<EventEntity>,
-    @Inject(EventEntityConverter)
+    @Inject(EventEntityConverterType)
     private readonly converter: Converter<Event, EventEntity>
   ) {}
 

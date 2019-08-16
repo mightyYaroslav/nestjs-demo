@@ -13,16 +13,17 @@ export class AuthController {
     private readonly authService: AuthService
   ) {}
 
+  @UseGuards(AuthGuard('local'))
   @Post('login')
-  @ApiResponse({ status: 200, type: UserResponse, description: 'Creates new user object' })
-  async login(@Request() req): Promise<UserResponse> {
+  @ApiResponse({ status: 200, description: 'Creates new user object' })
+  async login(@Request() req): Promise<any> {
     return this.authService.login(req.user)
   }
 
   @Post('register')
   @ApiResponse({ status: 200, type: UserResponse, description: 'Registeres new user' })
   async register(
-    @Body()input: CreateUserInput
+    @Body() input: CreateUserInput
   ): Promise<UserResponse> {
     return await this.authService.register(input)
   }

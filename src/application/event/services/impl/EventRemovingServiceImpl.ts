@@ -16,7 +16,7 @@ export class EventRemovingServiceImpl implements EventRemovingService {
     private readonly eventConverter: Converter<Event, EventResponse>
   ) {}
 
-  async remove(eventId: number, actionUserId: number): Promise<Event> {
+  async remove(eventId: number, actionUserId: number): Promise<EventResponse> {
     const eventToRemove = await this.eventRepository.findByIdAndUser(eventId, actionUserId)
     if (!eventToRemove) {
       throw new NotFoundException()

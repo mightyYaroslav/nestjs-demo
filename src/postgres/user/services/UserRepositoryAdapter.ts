@@ -4,7 +4,7 @@ import { User } from '../../../domain/user/data/User'
 import { InjectRepository } from '@nestjs/typeorm'
 import { UserEntity } from '../data/UserEntity'
 import { Repository } from 'typeorm'
-import { UserEntityConverter } from './converters/UserEntityConverter'
+import { UserEntityConverterType } from './converters/UserEntityConverter'
 import { Converter } from '../../../configuration/Converter'
 
 @Injectable()
@@ -13,7 +13,7 @@ export class UserRepositoryAdapter implements UserRepository {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    @Inject(UserEntityConverter)
+    @Inject(UserEntityConverterType)
     private readonly converter: Converter<User, UserEntity>
   ) {}
 

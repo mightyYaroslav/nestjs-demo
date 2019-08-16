@@ -1,4 +1,6 @@
 import { IsEmail, IsString, Length, MaxLength, MinLength } from 'class-validator'
+import { Transform } from 'class-transformer'
+import * as crypto from 'crypto'
 
 export class CreateUserInput {
   @IsString()
@@ -13,6 +15,7 @@ export class CreateUserInput {
 
   @IsString()
   @Length(8)
+  @Transform(password => crypto.createHmac('sha256', password).digest('hex'))
   password: string
 
   @IsString()

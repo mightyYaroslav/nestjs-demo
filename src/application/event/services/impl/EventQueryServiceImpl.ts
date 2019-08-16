@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { EventQueryService } from '../EventQueryService'
 import { EventResponse } from '../../data/output/EventResponse'
+import { Event } from '../../../../domain/event/data/Event'
 import { EventResponseConverterType } from '../converters/EventResponseConverter'
 import { Converter } from '../../../../configuration/Converter'
 import { EventRepository, EventRepositoryType } from '../../ports/EventRepository'

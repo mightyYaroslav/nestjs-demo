@@ -7,4 +7,4 @@ import { EventApplicationModule } from '../../application/event/EventApplication
   controllers: [EventController]
 })
 
-export class EventModule {}
+export class EventControllerModule {}

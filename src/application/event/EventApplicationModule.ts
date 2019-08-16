@@ -7,10 +7,14 @@ import { EventCreationServiceType } from './services/EventCreationService'
 import { EventCreationServiceImpl } from './services/impl/EventCreationServiceImpl'
 import { EventRemovingServiceType } from './services/EventRemovingService'
 import { EventRemovingServiceImpl } from './services/impl/EventRemovingServiceImpl'
+import { UserPostgresModule } from '../../postgres/user/UserPostgresModule'
+import { UserApplicationModule } from '../user/UserApplicationModule'
 
 @Module({
   imports: [
-    EventPostgresModule
+    EventPostgresModule,
+    UserPostgresModule,
+    UserApplicationModule
   ],
   providers: [{
     provide: EventResponseConverterType,
@@ -24,6 +28,7 @@ import { EventRemovingServiceImpl } from './services/impl/EventRemovingServiceIm
   }, {
     provide: EventRemovingServiceType,
     useClass: EventRemovingServiceImpl
-  }]
+  }],
+  exports: [EventResponseConverterType, EventCreationServiceType, EventQueryServiceType, EventRemovingServiceType]
 })
 export class EventApplicationModule {}

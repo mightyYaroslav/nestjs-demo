@@ -1,6 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, BeforeInsert } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
 import { EventEntity } from '../../event/data/EventEntity'
-import * as crypto from 'crypto'
 
 interface UserEntityConstructionObject {
   id: number
@@ -11,7 +10,7 @@ interface UserEntityConstructionObject {
   events: EventEntity[]
 }
 
-@Entity()
+@Entity('user')
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number
@@ -22,10 +21,6 @@ export class UserEntity {
   @Column({ length: 50 })
   surname: string
 
-  @BeforeInsert()
-  hashPassword() {
-    this.password = crypto.createHmac('sha256', this.password).digest('hex')
-  }
   @Column()
   password: string
 

@@ -1,7 +1,7 @@
-import { Event } from '../../../domain/event/data/Event'
+import { EventResponse } from '../data/output/EventResponse'
 
 export interface EventRemovingService {
-  remove(eventId: number, actionUserId: number): Promise<Event>
+  remove(eventId: number, actionUserId: number): Promise<EventResponse>
 }
 
 const EventRemovingServiceType = Symbol.for('EventRemovingService')
