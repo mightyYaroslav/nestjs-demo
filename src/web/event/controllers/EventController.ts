@@ -1,13 +1,14 @@
-import { Body, Controller, Delete, Get, Inject, Param, Post, Request } from '@nestjs/common'
-import { ApiBearerAuth, ApiResponse, ApiUseTags } from '@nestjs/swagger'
+import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Post, Request, UseGuards } from '@nestjs/common'
+import { ApiResponse, ApiUseTags } from '@nestjs/swagger'
 import { EventResponse } from '../../../application/event/data/output/EventResponse'
 import { EventCreationService, EventCreationServiceType } from '../../../application/event/services/EventCreationService'
 import { EventQueryService, EventQueryServiceType } from '../../../application/event/services/EventQueryService'
 import { EventRemovingService, EventRemovingServiceType } from '../../../application/event/services/EventRemovingService'
 import { CreateEventInput } from '../../../application/event/data/input/CreateEventInput'
+import { AuthGuard } from '@nestjs/passport'
 
 @ApiUseTags('event')
-@ApiBearerAuth()
+@UseGuards(AuthGuard('jwt'))
 @Controller('event')
 export class EventController {
 
@@ -39,7 +40,7 @@ export class EventController {
   @ApiResponse({ status: 200, type: EventResponse })
   async getById(
     @Request() req,
-    @Param('id') eventId: number
+    @Param('id', new ParseIntPipe()) eventId: number
   ): Promise<EventResponse> {
     return this.eventQueryService.getById(eventId, req.user.id)
   }
@@ -48,7 +49,7 @@ export class EventController {
   @ApiResponse({ status: 200, type: EventResponse })
   async deleteEvent(
     @Request() req,
-    @Param('id') eventId: number
+    @Param('id', new ParseIntPipe()) eventId: number
   ): Promise<EventResponse> {
     return await this.eventRemovingService.remove(eventId, req.user.id)
   }

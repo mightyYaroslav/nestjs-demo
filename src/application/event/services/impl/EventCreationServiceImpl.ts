@@ -1,4 +1,4 @@
-import { ForbiddenException, HttpException, Inject, Injectable } from '@nestjs/common'
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common'
 import { EventCreationService } from '../EventCreationService'
 import { EventResponse } from '../../data/output/EventResponse'
 import { CreateEventInput } from '../../data/input/CreateEventInput'
@@ -23,7 +23,7 @@ export class EventCreationServiceImpl implements EventCreationService {
   async createEvent(input: CreateEventInput, actionUserId: number): Promise<EventResponse> {
     const user = await this.userRepository.findById(actionUserId)
     if (!user) {
-      throw new ForbiddenException()
+      throw new UnauthorizedException()
     }
     const event = Event.fromObject({
       name: input.name,

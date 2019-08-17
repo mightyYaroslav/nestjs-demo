@@ -29,7 +29,7 @@ export class EventRepositoryAdapter implements EventRepository {
   async findByUser(userId: number): Promise<Event[]> {
     const entities = await this.eventRepository.createQueryBuilder('event')
       .innerJoinAndSelect('event.user', 'user')
-      .where('user.id = :uesrId', { userId })
+      .where('user.id = :userId', { userId })
       .getMany()
     return entities.map(entity => this.converter.to(entity))
   }

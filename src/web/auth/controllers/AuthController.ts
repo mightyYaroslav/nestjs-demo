@@ -1,10 +1,11 @@
 import { Controller, Post, UseGuards, Request, Get, Inject, Body } from '@nestjs/common'
 import { AuthService, AuthServiceType } from '../../../auth/services/AuthService'
 import { AuthGuard } from '@nestjs/passport'
-import { ApiResponse } from '@nestjs/swagger'
+import { ApiResponse, ApiUseTags } from '@nestjs/swagger'
 import { UserResponse } from '../../../application/user/data/output/UserResponse'
 import { CreateUserInput } from '../../../application/user/data/input/CreateUserInput'
 
+@ApiUseTags('auth')
 @Controller()
 export class AuthController {
 
@@ -21,7 +22,7 @@ export class AuthController {
   }
 
   @Post('register')
-  @ApiResponse({ status: 200, type: UserResponse, description: 'Registeres new user' })
+  @ApiResponse({ status: 200, type: UserResponse, description: 'Registers new user' })
   async register(
     @Body() input: CreateUserInput
   ): Promise<UserResponse> {

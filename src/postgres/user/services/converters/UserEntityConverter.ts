@@ -9,7 +9,7 @@ export class UserEntityConverter implements Converter<User, UserEntity> {
   from(from: User): UserEntity {
     return UserEntity.fromObject({
       ...from,
-      events: from.events.map(event => EventEntity.fromObject({ ...event }))
+      events: from.events ? from.events.map(event => EventEntity.fromObject({ ...event })) : []
     })
   }
 

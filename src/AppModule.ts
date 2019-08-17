@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common'
-import { ConfigurationModule } from './configuration/ConfigurationModule'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import config from './configuration/Config'
 import { AuthControllerModule } from './web/auth/AuthControllerModule'
@@ -18,7 +17,6 @@ import { join } from 'path'
       entities: [join(__dirname, '**/**Entity{.ts,.js}')],
       synchronize: true
     }),
-    ConfigurationModule,
     AuthControllerModule,
     EventControllerModule
   ]

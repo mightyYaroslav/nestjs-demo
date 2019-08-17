@@ -22,6 +22,6 @@ export class EventRemovingServiceImpl implements EventRemovingService {
       throw new NotFoundException()
     }
     const removedEvent = await this.eventRepository.remove(eventToRemove)
-    return this.eventConverter.to(removedEvent)
+    return this.eventConverter.from(removedEvent)
   }
 }

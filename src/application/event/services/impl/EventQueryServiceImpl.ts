@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
+import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { EventQueryService } from '../EventQueryService'
 import { EventResponse } from '../../data/output/EventResponse'
 import { Event } from '../../../../domain/event/data/Event'
@@ -19,7 +19,7 @@ export class EventQueryServiceImpl implements EventQueryService {
   async getById(eventId: number, actionUserId: number): Promise<EventResponse> {
     const event = await this.eventRepository.findByIdAndUser(eventId, actionUserId)
     if (!event) {
-      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN)
+      throw new NotFoundException()
     }
     return this.responseConverter.from(event)
   }

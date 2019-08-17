@@ -13,8 +13,7 @@ import { AuthServiceType } from './services/AuthService'
     PassportModule,
     UserApplicationModule,
     JwtModule.register({
-      secret: config.jwt.secret,
-      signOptions: { expiresIn: config.jwt.expiresIn }
+      secret: config.jwt.secret
     })
   ],
   providers: [{
